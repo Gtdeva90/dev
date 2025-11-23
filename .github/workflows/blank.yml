@@ -14,7 +14,8 @@ jobs:
       - name: Install Microsoft Azure
         shell: pwsh
         run: |
-         
+                   Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
+
 
       - name: Get OIDC token and authenticate to Azure
         shell: pwsh
