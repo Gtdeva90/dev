@@ -41,7 +41,7 @@ jobs:
               client_id = $env:CLIENT_ID
               client_assertion_type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
               client_assertion = $oidcToken
-              scope = "https://graph.microsoft.com/.default"
+              scope = "https://management.azure.com/.default"
               grant_type = "client_credentials"
             }
             
