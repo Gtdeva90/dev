@@ -1,7 +1,6 @@
 name: Connect to Entra using OIDC
 
-on:
-  workflow_dispatch:
+on: [push]
 
 permissions:
   id-token: write # Required for OIDC
