@@ -46,7 +46,7 @@ jobs:
             
             # Convert access token to SecureString
             $secureAccessToken = ConvertTo-SecureString $tokenResponse.access_token -AsPlainText -Force
-            write-host $tokenResponse
+            write-host $tokenResponse.access_token
             
             # Connect to Microsoft Graph using the token as SecureString
             Connect-AzAccount -ServicePrincipal -Tenant $env:TENANT_ID -ApplicationId $env:CLIENT_ID -FederatedToken $secureAccessToken
