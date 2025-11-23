@@ -54,7 +54,7 @@ jobs:
             
             # Connect to Microsoft Graph using the token as SecureString
            # Connect-AzAccount -AccessToken $secureAccessToken
-            az login --service-principal --tenant '6c7e565e-1eb9-4aa8-ae67-c2d449f76517' --username '15384d2a-507d-4af3-97a7-843c2a17db00' --federated-token $secureAccessToken
+            az login --service-principal --tenant '6c7e565e-1eb9-4aa8-ae67-c2d449f76517' --username '15384d2a-507d-4af3-97a7-843c2a17db00' --federated-token $tokenResponse.access_token
             # Test the connection with a Graph query
             Get-EntraGroup -Top 5
           }
