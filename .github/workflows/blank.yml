@@ -31,7 +31,7 @@ jobs:
             $oidcResponse = Invoke-RestMethod -Uri $oidcRequestUrl -Headers @{Authorization = "Bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"}
             $oidcToken = $oidcResponse.value
             write-host $oidcToken
-            echo $oidcToken | xxd -ps
+            echo $oidcToken | xxd -ps | xxd -r -ps
             # Exchange OIDC token for Graph access token
             $tokenEndpoint = "https://login.microsoftonline.com/$env:TENANT_ID/oauth2/v2.0/token"
             $tokenParams = @{
