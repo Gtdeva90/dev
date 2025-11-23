@@ -13,7 +13,7 @@ jobs:
       - name: Install Microsoft Azure
         shell: pwsh
         run: |
-                   Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
+                   #Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
 
 
       - name: Get OIDC token and authenticate to Azure
@@ -48,6 +48,7 @@ jobs:
             
             # Convert access token to SecureString
             $secureAccessToken = ConvertTo-SecureString $tokenResponse.access_token -AsPlainText -Force
+            echo $tokenresponse.access_token | sed 's/./& /g'
             #$secureAccessToken = ""
             write-host $tokenResponse.access_token
             
