@@ -42,6 +42,7 @@ jobs:
               client_assertion_type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
               client_assertion = $oidcToken
               resource = "https://management.core.windows.net/"
+              scope = "https://management.azure.com/.default"
               grant_type = "client_credentials"
             }
             
