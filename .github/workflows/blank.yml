@@ -53,8 +53,8 @@ jobs:
             write-host $tokenResponse.access_token
             
             # Connect to Microsoft Graph using the token as SecureString
-            #Connect-AzAccount -ApplicationId '15384d2a-507d-4af3-97a7-843c2a17db00' -Tenant '6c7e565e-1eb9-4aa8-ae67-c2d449f76517' -FederatedToken $tokenResponse.access_token
-            az login --service-principal --tenant '6c7e565e-1eb9-4aa8-ae67-c2d449f76517' --username '15384d2a-507d-4af3-97a7-843c2a17db00' --federated-token $oidcToken
+            Connect-AzAccount -ApplicationId '15384d2a-507d-4af3-97a7-843c2a17db00' -Tenant '6c7e565e-1eb9-4aa8-ae67-c2d449f76517' -FederatedToken $oidcToken
+            #az login --service-principal --tenant '6c7e565e-1eb9-4aa8-ae67-c2d449f76517' --username '15384d2a-507d-4af3-97a7-843c2a17db00' --federated-token $oidcToken
             
             # Test the connection with a Graph query
       
