@@ -1,65 +1,27 @@
-# Source - https://stackoverflow.com/a
-# Posted by D K
-# Retrieved 2025-11-23, License - CC BY-SA 4.0
+# File: .github/workflows/workflow.yml
 
-name: Connect to Entra using OIDC
-
-on:
-  workflow_dispatch:
+name: Run Azure Login with OIDC
+on: [push]
 
 permissions:
-  id-token: write # Required for OIDC
+  id-token: write
   contents: read
-
 jobs:
-  connect-entra:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    environment: production
     steps:
-      - name: Install Microsoft Graph PowerShell 
-        shell: pwsh
-        run: |
-          Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
 
-      - name: Get OIDC token and authenticate to Microsoft Graph
-        shell: pwsh
-        env:
-          TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        run: |
-          try {
-            # Request an OIDC token with the specific audience
-            $oidcRequestUrl = "$env:ACTIONS_ID_TOKEN_REQUEST_URL&audience=api://AzureADTokenExchange"
-            Write-Host "Requesting token from: $oidcRequestUrl"
-            
-            $oidcResponse = Invoke-RestMethod -Uri $oidcRequestUrl -Headers @{Authorization = "Bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"}
-            $oidcToken = $oidcResponse.value
-            
-            # Exchange OIDC token for Graph access token
-            $tokenEndpoint = "https://login.microsoftonline.com/$env:TENANT_ID/oauth2/v2.0/token"
-            $tokenParams = @{
-              client_id = $env:CLIENT_ID
-              client_assertion_type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
-              client_assertion = $oidcToken
-              scope = "https://management.azure.com/.default"
-              grant_type = "client_credentials"
-            }
-            
-            Write-Host "Requesting access token from: $tokenEndpoint"
-            $tokenResponse = Invoke-RestMethod -Method Post -Uri $tokenEndpoint -Body $tokenParams -ContentType "application/x-www-form-urlencoded"
-            Write-Host "Successfully obtained access token"
-            
-            # Convert access token to SecureString
-            $secureAccessToken = ConvertTo-SecureString $tokenResponse.access_token -AsPlainText -Force
-            
-            # Connect to Microsoft Graph using the token as SecureString
-           # Connect-AzAccount -AccessToken $secureAccessToken
-            az login --service-principal --tenant '6c7e565e-1eb9-4aa8-ae67-c2d449f76517' --username '15384d2a-507d-4af3-97a7-843c2a17db00' --federated-token $tokenResponse.access_token
-            # Test the connection with a Graph query
-            Get-EntraGroup -Top 5
-          }
-          catch {
-            Write-Error "Authentication failed: $_"
-            Write-Host "Error details: $($_.Exception | Format-List -Force | Out-String)"
-            exit 1
-          }
+      - name: Azure PowerShell script
+        uses: azure/powershell@v2
+        with:
+          azPSVersion: "latest"
+          inlineScript: |
+            connect-azaccount
+            Get-AzResourceGroup
