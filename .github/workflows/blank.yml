@@ -31,3 +31,4 @@ jobs:
         inlineScript: |
           Get-AzContext  
           # You can write your Azure PowerShell inline scripts here.
+          #connect-azaccount -serviceprincipal -tenant $env.AZURE_TENANT_ID -ApplicationId $env.AZURE_CLIENT_ID
