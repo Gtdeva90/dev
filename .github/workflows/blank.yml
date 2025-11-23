@@ -23,5 +23,5 @@ jobs:
         with:
           azPSVersion: "latest"
           inlineScript: |
-            connect-azaccount
+            connect-azaccount -usedeviceauthentication
             Get-AzResourceGroup
