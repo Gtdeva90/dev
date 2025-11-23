@@ -30,4 +30,6 @@ jobs:
         azPSVersion: latest
         inlineScript: |
           Get-AzContext  
+          Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
+          connect-azaccount
           # You can write your Azure PowerShell inline scripts here.
