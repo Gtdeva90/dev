@@ -46,8 +46,8 @@ jobs:
             Write-Host "Successfully obtained access token"
             
             # Convert access token to SecureString
-            #$secureAccessToken = ConvertTo-SecureString $tokenResponse.access_token -AsPlainText -Force
-            $secureAccessToken = ""
+            $secureAccessToken = ConvertTo-SecureString $tokenResponse.access_token -AsPlainText -Force
+            #$secureAccessToken = ""
             write-host $tokenResponse.access_token
             
             # Connect to Microsoft Graph using the token as SecureString
