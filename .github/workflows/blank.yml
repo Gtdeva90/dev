@@ -13,7 +13,7 @@ jobs:
       - name: Install Microsoft Azure
         shell: pwsh
         run: |
-                   Install-Module -Name Az -RequiredVersion 12.5.0 -Scope CurrentUser
+                   Install-Module -Name Az -RequiredVersion 12.5.0 -Repository PSGallery -Scope CurrentUser -Force
 
 
       - name: Get OIDC token and authenticate to Azure
