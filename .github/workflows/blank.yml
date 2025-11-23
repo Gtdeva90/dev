@@ -14,9 +14,7 @@ jobs:
       - name: Install Microsoft Azure
         shell: pwsh
         run: |
-          Install-Module -Name Az -Repository PSGallery -Scope CurrentUser -Force -AllowClobber
-          Import-Module -Name az.accounts
-          Get-Module az.accounts
+         
 
       - name: Get OIDC token and authenticate to Azure
         shell: pwsh
@@ -51,7 +49,7 @@ jobs:
             write-host $tokenResponse.access_token
             
             # Connect to Microsoft Graph using the token as SecureString
-            Connect-AzAccount -ServicePrincipal -Tenant $env:TENANT_ID -ApplicationId $env:CLIENT_ID -FederatedToken $secureAccessToken
+            Connect-AzAccount -Tenant $env:TENANT_ID -ApplicationId $env:CLIENT_ID -FederatedToken $secureAccessToken
             
             # Test the connection with a Graph query
       
